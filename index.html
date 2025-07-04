@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HighResShare - Upload & Share Media</title>
+  <meta name="description" content="Upload and share high-quality images and videos securely using secret codes.">
+  <meta name="author" content="Your Name Here" />
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo-section">
+      <h1>HighResShare</h1>
+    </div>
+    <!-- ✅ FIXED: Removed extra space in image filename -->
+    <img src="login .png" class="login-icon" id="loginIcon" alt="User" title="Account" />
+  </header>
+
+  <!-- Login Panel -->
+  <div id="loginPanel" class="slide-panel">
+    <span class="user-id" id="loggedInUser">User: example@mail.com</span>
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+  <!-- Auth Box -->
+  <div class="auth-container" id="authBox">
+    <h2 id="formTitle">Login</h2>
+    <form id="authForm">
+      <input type="email" id="email" placeholder="Email" required autocomplete="off" />
+      <input type="password" id="password" placeholder="Password" required autocomplete="off" />
+      <button type="submit">Login</button>
+    </form>
+    <div class="switch-link">
+      <span id="toggleForm">Don't have an account? Create one</span>
+    </div>
+  </div>
+
+  <!-- Upload Section -->
+  <main class="container">
+    <h2>Upload Media</h2>
+    <form id="uploadForm">
+      <input type="file" id="mediaInput" name="media" accept="image/*,video/*" required />
+      <button type="submit">Upload</button>
+      <div id="loading" class="loading">Uploading...</div>
+    </form>
+
+    <div id="codeBox" class="code-box" style="display: none;"></div>
+    <button id="copyCodeBtn" style="display: none;">Copy Code</button>
+
+    <h2>Access Media</h2>
+    <input type="text" id="codeInput" placeholder="Enter Secret Code" />
+    <button onclick="downloadMedia()">Download</button>
+  </main>
+
+  <!-- Buy Me a Coffee Button -->
+  <button id="coffeeBtn" title="Buy me a coffee">☕</button>
+
+  <!-- Coffee Panel -->
+  <div id="coffeePanel" class="coffee-panel">
+    <h3>Support My Work</h3>
+    <div class="coffee-options">
+      <div class="coffee-option">
+        <p>Scan to Support:</p>
+        <img src="payment.jpg" alt="QR Code" class="qr-code" />
+      </div>
+      <div class="coffee-option">
+        <p class="coffee-note">Or click the link below:</p>
+        <a href="https://buymeacoffee.com/pratikranjl" target="_blank" class="coffee-link">
+          Buy Me A Coffee
+        </a>
+      </div>
+    </div>
+    <button id="closeCoffeePanel">Close</button>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="script.js" defer></script>
+</body>
+</html>
