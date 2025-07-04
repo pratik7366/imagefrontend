@@ -76,7 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ email, password })
       });
 
-      const data = await res.json();
+      const contentType = res.headers.get('Content-Type');
+      const data = contentType && contentType.includes('application/json') ? await res.json() : {};
+
       if (res.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.email);
@@ -84,11 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
         authBox.classList.remove('active');
         setLoginState(true, data.email);
       } else {
-        alert(data.message || 'Login failed');
+        alert(data.message || 'Authentication failed');
       }
     } catch (err) {
       console.error(err);
-      alert('Server error. Try again later.');
+      alert('Server error. Please try again later.');
     }
   });
 
@@ -105,22 +107,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (file.size > 100 * 1024 * 1024) return alert('Max size allowed is 100MB.');
 
     const formData = new FormData();
-    formData.append('media', file); 
-
+    formData.append('media', file); // Must match multer's .single('media')
 
     loading.style.display = 'block';
 
-
-
-    
-
- try {
+    try {
       const res = await fetch(`${BACKEND_URL}/upload`, {
         method: 'POST',
         body: formData
       });
 
-      const data = await res.json();
+      const contentType = res.headers.get('Content-Type');
+      const data = contentType && contentType.includes('application/json') ? await res.json() : {};
+
       if (!res.ok) throw new Error(data.message || 'Upload failed');
 
       codeBox.textContent = `Your Secret Code: ${data.code}`;
@@ -134,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
       loading.style.display = 'none';
     }
   });
-  
 
   document.getElementById('copyCodeBtn').addEventListener('click', () => {
     const code = document.getElementById('codeBox').textContent.replace('Your Secret Code: ', '');
