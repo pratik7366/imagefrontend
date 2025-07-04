@@ -110,26 +110,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loading.style.display = 'block';
 
-    try {
-      const res = await fetch(`${BACKEND_URL}/upload`, {
-        method: 'POST',
-        body: formData
-      });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Upload failed');
 
-      codeBox.textContent = `Your Secret Code: ${data.code}`;
-      codeBox.style.display = 'block';
-      copyBtn.style.display = 'inline-block';
-      uploadForm.reset();
-    } catch (err) {
-      alert('Upload failed. Try again.');
-      console.error(err);
+    
+
+try {
+   const res = await fetch(`${BACKEND_URL}/upload`, {
+    method: 'POST',
+    body: formData
+  });
+
+  const contentType = res.headers.get("content-type");
+  if (!res.ok) {
+    const errText = await res.text(); // fallback if not JSON
+    throw new Error(errText);
+  }
+
+  if (contentType && contentType.includes("application/json")) {
+    const data = await res.json();  // ✅ only parse if content-type is JSON
+    codeBox.textContent = `Your Secret Code: ${data.code}`;
+    codeBox.style.display = 'block';
+    copyBtn.style.display = 'inline-block';
+    uploadForm.reset();
+  } else {
+    throw new Error("Unexpected response format");
+  }
+} catch (err) {
+  alert('Upload failed. Try again.');
+  console.error("Upload error:", err);
+}
+
+
+
+    
+    
     } finally {
       loading.style.display = 'none';
     }
-  });
+  
 
   document.getElementById('copyCodeBtn').addEventListener('click', () => {
     const code = document.getElementById('codeBox').textContent.replace('Your Secret Code: ', '');
