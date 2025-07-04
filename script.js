@@ -140,13 +140,6 @@ try {
   console.error("Upload error:", err);
 }
 
-
-
-    
-    
-    } finally {
-      loading.style.display = 'none';
-    }
   
 
   document.getElementById('copyCodeBtn').addEventListener('click', () => {
