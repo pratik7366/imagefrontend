@@ -105,7 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (file.size > 100 * 1024 * 1024) return alert('Max size allowed is 100MB.');
 
     const formData = new FormData();
-    formData.append('file', file);
+   formData.append('media', file); 
+
 
     loading.style.display = 'block';
 
